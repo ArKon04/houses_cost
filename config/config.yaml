@@ -1,0 +1,39 @@
+general:
+  experiment_name: "dl_baseline"
+  seed: 42
+  debug: false
+  device: "auto"
+
+paths:
+  data_dir: "data/raw"
+  train: "${paths.data_dir}/train.csv"
+  test: "${paths.data_dir}/test.csv"
+
+  output_dir: "outputs/${general.experiment_name}"
+  checkpoint: "${paths.output_dir}/best_model.pt"
+
+  sample_submission: ${paths.data_dir}/sample_submission.csv
+  submission: ${paths.output_dir}/submission.csv
+  preprocessor: ${paths.output_dir}/preprocessor.joblib
+  
+
+data:
+  target: "SalePrice"
+  id_column: "Id"
+  target_transform: log1p
+
+
+validation: 
+  n_splits: 5
+  shuffle: true
+  stratify_bins: 10
+
+model:
+  name: 'mlp'
+  hidden_dims: [256, 128]
+  activation: "relu"
+
+training:
+  epochs: 10
+  batch_size: 32
+  learning_rate: 1e-3
